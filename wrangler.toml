@@ -10,7 +10,7 @@ run_worker_first = true
 
 [[kv_namespaces]]
 binding = "DEALS"
-id = "REPLACE_WITH_CLOUDFLARE_KV_NAMESPACE_ID"
+id = "11972c440b3b41ba9aaffbea09830c27"
 
 [triggers]
 crons = ["0 */3 * * *"]
