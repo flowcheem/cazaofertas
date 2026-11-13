@@ -61,8 +61,9 @@ export default {
     const url = new URL(request.url);
 
     if (url.pathname === "/api/health" && request.method === "GET") {
-      const latest = await env.DEALS.list({ prefix: RUN_PREFIX, limit: 1, reverse: true });
-      const lastRun = latest.keys.length ? await env.DEALS.get(latest.keys[0].name, "json") : null;
+      const history = await env.DEALS.list({ prefix: RUN_PREFIX, limit: MAX_RUNS });
+      const lastKey = history.keys.at(-1);
+      const lastRun = lastKey ? await env.DEALS.get(lastKey.name, "json") : null;
       return json({ ok: true, service: "cazaofertas", schedule: "0 */3 * * * (UTC)", lastRun });
     }
 
@@ -111,8 +112,8 @@ export default {
       if (!env.ADMIN_TOKEN || request.headers.get("authorization") !== `Bearer ${env.ADMIN_TOKEN}`) {
         return json({ error: "Unauthorized" }, 401);
       }
-      const listed = await env.DEALS.list({ prefix: RUN_PREFIX, limit: MAX_RUNS, reverse: true });
-      const runs = await Promise.all(listed.keys.map((key) => env.DEALS.get(key.name, "json")));
+      const listed = await env.DEALS.list({ prefix: RUN_PREFIX, limit: MAX_RUNS });
+      const runs = await Promise.all(listed.keys.slice(-MAX_RUNS).reverse().map((key) => env.DEALS.get(key.name, "json")));
       return json({ runs: runs.filter(Boolean) });
     }
 
