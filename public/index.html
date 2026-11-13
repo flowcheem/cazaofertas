@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Descubre ofertas, productos destacados y oportunidades de compra en Amazon Estados Unidos.">
+  <title>CazaOfertas | Encuentra tu próxima oferta</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      color: #202124;
+    }
+    header {
+      background: #171717;
+      color: white;
+      padding: 22px 6%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .logo { font-size: 27px; font-weight: 800; }
+    .logo span { color: #ff9900; }
+    header small { color: #ddd; }
+    .hero {
+      background: #202124;
+      color: white;
+      padding: 65px 7%;
+      text-align: center;
+    }
+    .hero h1 { font-size: clamp(30px, 5vw, 48px); margin: 0 0 15px; }
+    .hero p { color: #ddd; font-size: 18px; line-height: 1.6; }
+    .hero a {
+      display: inline-block;
+      background: #ff9900;
+      color: #171717;
+      padding: 14px 24px;
+      margin-top: 15px;
+      border-radius: 7px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    main { max-width: 1100px; margin: 35px auto; padding: 0 20px; }
+    h2 { margin-bottom: 10px; }
+    .notice { color: #666; line-height: 1.6; }
+    .categories {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin: 25px 0;
+    }
+    .category {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      text-align: center;
+      font-weight: bold;
+      box-shadow: 0 2px 10px #0000000d;
+    }
+    .empty {
+      background: white;
+      border-radius: 12px;
+      padding: 35px 20px;
+      text-align: center;
+      line-height: 1.7;
+    }
+    footer {
+      background: #171717;
+      color: #ddd;
+      padding: 30px 7%;
+      text-align: center;
+      font-size: 13px;
+      line-height: 1.8;
+    }
+    footer a { color: #ffb13b; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">Caza<span>Ofertas</span></div>
+    <small>Oportunidades para comprar mejor</small>
+  </header>
+
+  <section class="hero">
+    <h1>¡Encuentra tu próxima oferta!</h1>
+    <p>Descubre productos destacados, novedades y oportunidades de compra en Amazon Estados Unidos.</p>
+    <a href="#categorias">Explorar categorías</a>
+  </section>
+
+  <main>
+    <h2>Explora nuestras categorías</h2>
+    <p class="notice">Estamos preparando una selección de productos para ayudarte a encontrar buenas compras.</p>
+
+    <div class="categories" id="categorias">
+      <div class="category">📱 Electrónica</div>
+      <div class="category">🏠 Hogar y cocina</div>
+      <div class="category">💻 Informática</div>
+      <div class="category">🎮 Tecnología y gaming</div>
+      <div class="category">💪 Deportes</div>
+      <div class="category">✨ Más vendidos</div>
+    </div>
+
+    <section class="empty">
+      <h2>Estamos preparando nuestras selecciones</h2>
+      <p>Próximamente encontrarás aquí recomendaciones y productos destacados de Amazon.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>CazaOfertas · Selección de productos de Amazon Estados Unidos</p>
+    <p>Los enlaces de afiliado se identificarán claramente cuando estén habilitados.</p>
+    <p>Como participante del Programa de Afiliados de Amazon, puedo obtener ingresos por compras que cumplan los requisitos.</p>
+    <p>Esta web es independiente y no está patrocinada ni respaldada por Amazon.</p>
+  </footer>
+</body>
+</html>
