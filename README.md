@@ -1,60 +1,79 @@
 # CazaOfertas — Amazon US / Black Friday 2026
 
-Static landing page plus a Cloudflare Worker API and scheduled maintenance job.
+CazaOfertas is a static storefront served by a Cloudflare Worker, with a KV-backed deal catalogue and a three-hour scheduled maintenance task.
 
-## Current state
+## What is implemented
 
-- Store ID: `cazaofert0aea-20`
-- Marketplace: Amazon.com (US)
-- Cron configured in Wrangler: `0 */3 * * *` (every three hours, UTC)
-- The scheduled handler expires stale curated offers and writes an execution log.
-- The API serves active offers at `GET /api/deals`.
-- Admin offer ingestion: `POST /api/admin/deals` with `Authorization: Bearer <ADMIN_TOKEN>`.
-- Execution status: `GET /api/health`; run history: `GET /api/admin/runs` (admin token required).
-- Product price and availability fields are deliberately not accepted by the ingestion API.
+- Cloudflare Worker entry point in `src/index.js`.
+- Static assets served from `public/`.
+- KV storage for deal records and execution history.
+- Public `GET /api/deals` endpoint; expired entries are never returned.
+- Protected `POST /api/admin/deals` endpoint for curated records. It accepts only Amazon.com URLs carrying the configured Associates tag, verification source and timestamps. It deliberately rejects price fields.
+- Protected `GET /api/admin/runs` and public `GET /api/health`.
+- Cron expression `0 */3 * * *` (every three hours, UTC).
+- GitHub Actions deployment workflow. It deploys on pushes to `main` after the pull request is merged.
 
-## Required Cloudflare setup before deployment
+## Important limitation: product feed is not connected yet
 
-1. Create a Workers KV namespace named `CAZAOFERTAS_DEALS`.
-2. Replace the placeholder `id` in `wrangler.toml` with the namespace ID.
-3. From the project directory run:
-   ```sh
-   npx wrangler secret put ADMIN_TOKEN
-   npx wrangler deploy
-   ```
-   Use a long random token. Never commit it to Git.
-4. In the Cloudflare dashboard, verify Worker `cazaofertas` has the Cron Trigger `0 */3 * * *` and Observability enabled.
-5. Verify `GET /api/health` and inspect Cron Events after the first scheduled run.
+The scheduled task currently expires stale records and writes an execution log. It does **not** scrape Amazon, fetch live prices, invent discounts, or automatically discover new deals.
 
-## Offer data and Amazon compliance
+Amazon Creators API access requires final Associates acceptance and separate API eligibility/credentials. Until those are granted, only manually verified editorial records should be published. Do not scrape Amazon pages or copy price/availability data from third-party sites as a substitute for an authorized feed.
 
-The Amazon Associates application is still under review. Creators API access is not currently available, so this worker does **not** scrape Amazon pages or infer prices, discounts, ratings, stock, or delivery estimates. The Cron currently performs expiry cleanup and health logging only.
+## Cloudflare setup (one-time)
 
-When Amazon grants final Associates approval and Creators API access, implement the authenticated API client in `src/index.js` using Amazon's official API documentation and permitted fields. Until then, only enter manually reviewed editorial offers through the admin endpoint, with an Amazon.com URL tagged `cazaofert0aea-20`, a verifiable source, and a conservative expiry time. Do not include price or availability claims.
+Run from the repository root with Node.js and Wrangler installed and authenticated:
 
-Example admin payload (replace values with a real, manually checked product and dates):
-```json
-{
-  "deals": [{
-    "title": "Example product name",
-    "category": "Electronics",
-    "url": "https://www.amazon.com/dp/EXAMPLE?tag=cazaofert0aea-20",
-    "verifiedAt": "2026-11-13T12:00:00Z",
-    "expiresAt": "2026-11-14T12:00:00Z",
-    "verificationSource": "Amazon product listing checked manually"
-  }]
-}
+```bash
+npx wrangler login
+npx wrangler kv namespace create cazaofertas-deals
 ```
 
-## Test locally
+Copy the returned namespace ID into `wrangler.toml`, replacing `REPLACE_WITH_CLOUDFLARE_KV_NAMESPACE_ID`.
 
-```sh
-npx wrangler dev --test-scheduled
-curl "http://localhost:8787/api/health"
-curl "http://localhost:8787/cdn-cgi/local/scheduled?cron=0+*/3+*+*+*"
+Set a long random admin token (keep it private):
+
+```bash
+npx wrangler secret put ADMIN_TOKEN
 ```
 
-Cloudflare Cron Triggers execute in UTC. See:
-- https://developers.cloudflare.com/workers/configuration/cron-triggers/
-- https://developers.cloudflare.com/workers/static-assets/binding/
-- https://affiliate-program.amazon.com/creatorsapi/docs/
+Deploy:
+
+```bash
+npx wrangler deploy
+```
+
+For automatic deploys from GitHub Actions, add repository Actions secrets:
+- `CLOUDFLARE_API_TOKEN`: Cloudflare API token with permission to edit Workers and deploy assets for the target account.
+- `CLOUDFLARE_ACCOUNT_ID`: Cloudflare account ID.
+
+The deployment workflow runs only from `main`; merge the reviewed pull request before expecting the workflow to deploy.
+
+## Add a verified editorial record
+
+Only submit a record after checking the exact product/variant, Amazon listing, seller, price and stock on Amazon itself. Price and stock are intentionally not stored or displayed by this initial version.
+
+```bash
+curl -X POST "https://YOUR-WORKER.workers.dev/api/admin/deals" \
+  -H "Authorization: Bearer $ADMIN_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "deals": [{
+      "title": "Exact product name and variant",
+      "category": "Electronics",
+      "url": "https://www.amazon.com/dp/ASIN?tag=cazaofert0aea-20",
+      "verifiedAt": "2026-11-13T12:00:00Z",
+      "expiresAt": "2026-11-13T18:00:00Z",
+      "verificationSource": "Manually checked on Amazon.com; exact ASIN and seller confirmed"
+    }]
+  }'
+```
+
+Use a short expiry and re-check the exact listing before extending it. Never use your own affiliate link to make a purchase.
+
+## Monitoring
+
+- `GET /api/health` reports service health and the latest scheduled execution.
+- `GET /api/deals` lists current unexpired records.
+- `GET /api/admin/runs` returns recent scheduled execution records (requires the admin token).
+
+The cron currently performs expiry cleanup and logging only. Live product discovery, price/stock verification and automatic offer replacement must be added only after an authorized Amazon data source is available and integrated.
