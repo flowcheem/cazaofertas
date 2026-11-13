@@ -1,0 +1,24 @@
+name = "cazaofertas"
+main = "src/index.js"
+compatibility_date = "2026-11-13"
+workers_dev = true
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+run_worker_first = true
+
+[[kv_namespaces]]
+binding = "DEALS"
+id = "11972c440b3b41ba9aaffbea09830c27"
+
+[[previews.kv_namespaces]]
+binding = "DEALS"
+id = "b2d72691d6c94b3c9710c78f82c1820f"
+
+[triggers]
+crons = ["0 */3 * * *"]
+
+[observability]
+enabled = true
+head_sampling_rate = 1
