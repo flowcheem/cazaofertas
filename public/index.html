@@ -65,5 +65,40 @@
   <p class="muted">Consejo: antes de comprar, revisa el precio final, el vendedor, los gastos de envío, la fecha de entrega y la política de devoluciones en Amazon.com.</p>
 </main>
 <footer><strong>CazaOfertas</strong><br>Selecciones de productos y oportunidades de compra.<br>Amazon y sus marcas son marcas de Amazon.com, Inc. o sus afiliadas.</footer>
+
+<script>
+(async function () {
+  const grid = document.querySelector(".grid");
+  if (!grid) return;
+  try {
+    const response = await fetch("/api/deals", { headers: { "accept": "application/json" } });
+    if (!response.ok) return;
+    const data = await response.json();
+    if (!Array.isArray(data.deals) || data.deals.length === 0) return;
+    grid.innerHTML = "";
+    for (const deal of data.deals) {
+      const article = document.createElement("article");
+      article.className = "deal";
+      const tag = document.createElement("span");
+      tag.className = "tag";
+      tag.textContent = deal.category + " · Verificado " + new Date(deal.verifiedAt).toLocaleString("es-ES");
+      const title = document.createElement("h3");
+      title.textContent = deal.title;
+      const note = document.createElement("p");
+      note.textContent = "Consulta en Amazon el precio y la disponibilidad actuales. Verificación: " + deal.verificationSource;
+      const link = document.createElement("a");
+      link.href = deal.url;
+      link.target = "_blank";
+      link.rel = "sponsored nofollow noopener";
+      link.textContent = "Comprobar en Amazon";
+      article.append(tag, title, note, link);
+      grid.appendChild(article);
+    }
+  } catch (error) {
+    console.error("No se pudo cargar el catálogo dinámico de CazaOfertas", error);
+  }
+})();
+</script>
+
 </body>
 </html>
