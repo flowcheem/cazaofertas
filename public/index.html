@@ -56,7 +56,15 @@
   </section>
 
 
-  <section id="guias" aria-labelledby="guias-title">
+
+  <section id="ofertas-verificadas" aria-labelledby="ofertas-title">
+    <h2 id="ofertas-title">Ofertas verificadas</h2>
+    <p class="muted">Solo mostramos aquí oportunidades registradas con una fuente de verificación y una fecha de vigencia. No publicamos precios ni porcentajes sin datos autorizados y comprobables.</p>
+    <div id="live-deals" class="grid" aria-live="polite">
+      <article class="deal"><h3>Consultando ofertas…</h3><p>Estamos comprobando las ofertas vigentes.</p></article>
+    </div>
+  </section>
+\n  <section id="guias" aria-labelledby="guias-title">
     <h2 id="guias-title">Guías para comprar con criterio</h2>
     <p class="muted">Consejos editoriales independientes para comparar características y evitar compras impulsivas. No son recomendaciones pagadas de fabricantes ni garantizan el mejor precio.</p>
     <div class="grid">
@@ -92,5 +100,52 @@
   <p class="fineprint">Los precios, descuentos, gastos de envío, vendedores y existencias son determinados por Amazon y pueden cambiar sin previo aviso. CazaOfertas no garantiza que un producto esté rebajado ni disponible. Antes de completar una compra, confirma toda la información en Amazon.com.</p>
 </main>
 <footer><strong>CazaOfertas</strong><br>Guías de compra y selecciones de productos.<br>Amazon y sus marcas son marcas de Amazon.com, Inc. o sus afiliadas.</footer>
-</body>
+
+<script>
+(async function loadVerifiedDeals() {
+  const target = document.getElementById("live-deals");
+  if (!target) return;
+  const make = (tag, text, className) => {
+    const node = document.createElement(tag);
+    if (text !== undefined) node.textContent = text;
+    if (className) node.className = className;
+    return node;
+  };
+  try {
+    const response = await fetch("/api/deals", { headers: { "accept": "application/json" }, cache: "no-store" });
+    if (!response.ok) throw new Error("No se pudo consultar el listado.");
+    const payload = await response.json();
+    const deals = Array.isArray(payload.deals) ? payload.deals : [];
+    target.replaceChildren();
+    if (!deals.length) {
+      const card = make("article", undefined, "deal");
+      card.append(make("h3", "Todavía no hay ofertas verificadas publicadas."));
+      card.append(make("p", "Estamos preparando la conexión con fuentes autorizadas. Mientras tanto, puedes consultar las promociones directamente en Amazon."));
+      const link = make("a", "Consultar promociones en Amazon");
+      link.href = "https://www.amazon.com/blackfriday?tag=cazaofert0aea-20";
+      link.target = "_blank";
+      link.rel = "sponsored nofollow noopener";
+      card.append(link);
+      target.append(card);
+      return;
+    }
+    for (const deal of deals) {
+      const card = make("article", undefined, "deal");
+      card.append(make("span", deal.category || "Oferta", "tag"));
+      card.append(make("h3", deal.title || "Producto"));
+      card.append(make("p", "Verificación: " + (deal.verificationSource || "Fuente registrada") + "."));
+      card.append(make("p", "Comprobado: " + (deal.verifiedAt ? new Date(deal.verifiedAt).toLocaleString("es-ES") : "fecha no disponible") + "."));
+      const link = make("a", "Ver en Amazon");
+      link.href = deal.url;
+      link.target = "_blank";
+      link.rel = "sponsored nofollow noopener";
+      card.append(link);
+      target.append(card);
+    }
+  } catch (error) {
+    target.replaceChildren(make("p", "No ha sido posible cargar las ofertas ahora. Vuelve a intentarlo más tarde.", "muted"));
+  }
+})();
+</script>
+\n</body>
 </html>
