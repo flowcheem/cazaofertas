@@ -1,121 +1,201 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Descubre ofertas, productos destacados y oportunidades de compra en Amazon Estados Unidos.">
-  <title>CazaOfertas | Encuentra tu próxima oferta</title>
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
-      color: #202124;
-    }
-    header {
-      background: #171717;
-      color: white;
-      padding: 22px 6%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-    .logo { font-size: 27px; font-weight: 800; }
-    .logo span { color: #ff9900; }
-    header small { color: #ddd; }
-    .hero {
-      background: #202124;
-      color: white;
-      padding: 65px 7%;
-      text-align: center;
-    }
-    .hero h1 { font-size: clamp(30px, 5vw, 48px); margin: 0 0 15px; }
-    .hero p { color: #ddd; font-size: 18px; line-height: 1.6; }
-    .hero a {
-      display: inline-block;
-      background: #ff9900;
-      color: #171717;
-      padding: 14px 24px;
-      margin-top: 15px;
-      border-radius: 7px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    main { max-width: 1100px; margin: 35px auto; padding: 0 20px; }
-    h2 { margin-bottom: 10px; }
-    .notice { color: #666; line-height: 1.6; }
-    .categories {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 16px;
-      margin: 25px 0;
-    }
-    .category {
-      background: white;
-      padding: 25px;
-      border-radius: 12px;
-      text-align: center;
-      font-weight: bold;
-      box-shadow: 0 2px 10px #0000000d;
-    }
-    .empty {
-      background: white;
-      border-radius: 12px;
-      padding: 35px 20px;
-      text-align: center;
-      line-height: 1.7;
-    }
-    footer {
-      background: #171717;
-      color: #ddd;
-      padding: 30px 7%;
-      text-align: center;
-      font-size: 13px;
-      line-height: 1.8;
-    }
-    footer a { color: #ffb13b; }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Guías de compra y búsquedas de productos populares en Amazon Estados Unidos. Comprueba precios y disponibilidad directamente en Amazon.">
+  <meta name="theme-color" content="#171717">
+  <title>CazaOfertas | Encuentra ideas y oportunidades para comprar mejor</title>\n  <meta name="description" content="Explora selecciones y guías de compra en Amazon Estados Unidos. Compara con criterio y confirma siempre las condiciones vigentes en Amazon.">\n  <meta name="theme-color" content="#21194b">\n  <style>
+:root{color-scheme:light;--ink:#17142c;--muted:#667085;--orange:#ff9900;--purple:#673de6;--pink:#ff4f87;--cyan:#20c5d7;--paper:#f5f6fb;--white:#fff}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--paper);color:var(--ink)}
+a{transition:transform .2s,filter .2s}a:hover{filter:brightness(1.04);transform:translateY(-2px)}
+.site-header{position:sticky;top:0;z-index:20;background:#17142cf2;color:#fff;padding:13px max(5%,calc((100% - 1180px)/2));display:flex;justify-content:space-between;align-items:center;gap:18px;backdrop-filter:blur(12px);box-shadow:0 8px 28px #17142c22}
+.logo{font-size:28px;letter-spacing:-1.2px;font-weight:950}.logo span{color:var(--orange)}.header-right{display:flex;align-items:center;gap:18px}.header-right small{color:#d8d6e7}.nav-links{display:flex;gap:16px}.nav-links a{color:#fff;text-decoration:none;font-size:13px;font-weight:750}
+.hero{position:relative;overflow:hidden;color:#fff;min-height:490px;background:#21194b}
+.slides{position:relative;min-height:490px}.slide{position:absolute;inset:0;display:flex;align-items:center;opacity:0;visibility:hidden;transition:opacity .8s ease,visibility .8s;padding:58px max(7%,calc((100% - 1120px)/2));isolation:isolate}
+.slide.active{opacity:1;visibility:visible;z-index:1}.slide:before,.slide:after{content:"";position:absolute;border-radius:50%;z-index:-1;filter:blur(1px)}
+.slide:before{width:470px;height:470px;right:8%;top:-150px;background:#ffffff20}.slide:after{width:280px;height:280px;right:28%;bottom:-180px;background:#ffffff18}
+.slide-one{background:linear-gradient(115deg,#21194b 0%,#633fe0 56%,#a44be8 100%)}
+.slide-two{background:linear-gradient(115deg,#063b55 0%,#087e9b 52%,#26c5c4 100%)}
+.slide-three{background:linear-gradient(115deg,#651c42 0%,#d53e70 55%,#ff9655 100%)}
+.slide-copy{max-width:650px}.eyebrow{display:inline-flex;align-items:center;gap:8px;border:1px solid #ffffff60;background:#ffffff18;padding:8px 13px;border-radius:30px;font-size:12px;font-weight:850;letter-spacing:1px;text-transform:uppercase}
+.slide h1{font-size:clamp(38px,6vw,66px);line-height:1.02;letter-spacing:-2.8px;margin:20px 0 16px;max-width:680px}.slide p{font-size:18px;line-height:1.65;color:#f4efff;max-width:570px;margin:0}
+.cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:27px}.btn-primary,.btn-ghost{display:inline-flex;align-items:center;justify-content:center;padding:14px 20px;border-radius:12px;text-decoration:none;font-weight:850}.btn-primary{background:var(--orange);color:#211500;box-shadow:0 10px 25px #17142c30}.btn-ghost{border:1px solid #ffffff80;color:#fff;background:#ffffff12}
+.promo-art{position:absolute;right:9%;top:50%;transform:translateY(-50%);width:min(36vw,420px);height:340px;display:grid;place-items:center}
+.art-orbit{position:absolute;width:300px;height:300px;border:1px solid #ffffff65;border-radius:50%;box-shadow:0 0 0 28px #ffffff0c,0 0 0 58px #ffffff0a}
+.art-card{position:relative;display:grid;place-items:center;width:205px;height:235px;border-radius:30px;background:linear-gradient(145deg,#ffffffed,#ffffffa8);box-shadow:0 25px 60px #140d3d55;transform:rotate(-8deg);font-size:105px}
+.art-chip{position:absolute;background:#fff;color:#20183d;padding:13px 17px;border-radius:16px;font-weight:900;box-shadow:0 14px 35px #120c3533}.chip-a{top:38px;right:0;transform:rotate(7deg)}.chip-b{bottom:35px;left:0;transform:rotate(-6deg)}
+.slide-two .art-card{transform:rotate(7deg);font-size:112px}.slide-three .art-card{transform:rotate(-5deg);font-size:110px}
+.slider-controls{position:absolute;z-index:4;bottom:25px;left:max(7%,calc((100% - 1120px)/2));display:flex;align-items:center;gap:9px}
+.slider-dot{width:9px;height:9px;border:0;border-radius:20px;background:#ffffff80;padding:0;cursor:pointer}.slider-dot.active{width:28px;background:#fff}.slider-pause{border:1px solid #ffffff70;color:#fff;background:#ffffff15;border-radius:20px;padding:6px 11px;cursor:pointer;font-weight:700}
+main{max-width:1180px;margin:38px auto;padding:0 22px}.section-head{display:flex;justify-content:space-between;align-items:end;gap:20px;margin:42px 0 8px}.section-head h2,main>h2{font-size:clamp(25px,3vw,34px);letter-spacing:-1px;margin:0 0 7px}.section-head p,.muted{color:var(--muted);line-height:1.65;margin:0}
+.event{background:linear-gradient(110deg,#fff7e8,#fff 70%);border:1px solid #ffe1ae;border-left:5px solid var(--orange);padding:22px 24px;border-radius:18px;line-height:1.65;margin:26px 0;box-shadow:0 10px 30px #34234a08}
+.event a,.deal a{display:inline-flex;align-items:center;justify-content:center;background:var(--ink);color:#fff;padding:12px 16px;border-radius:10px;text-decoration:none;font-weight:800;margin-top:12px}
+.disclosure{font-size:13px;background:#fff;padding:17px 20px;border:1px solid #e8e8f1;border-radius:14px;line-height:1.65;margin:22px 0;color:#555}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:19px;margin:22px 0 42px}
+.deal{position:relative;overflow:hidden;background:var(--white);border:1px solid #ececf4;border-radius:20px;padding:22px;box-shadow:0 8px 25px #17142c0b;display:flex;flex-direction:column;align-items:flex-start;transition:transform .22s,box-shadow .22s}
+.deal:hover{transform:translateY(-5px);box-shadow:0 18px 38px #17142c17}.deal:before{content:"";position:absolute;inset:0 0 auto;height:5px;background:linear-gradient(90deg,var(--orange),var(--pink),var(--purple))}
+.deal .emoji{display:grid;place-items:center;width:64px;height:64px;border-radius:19px;background:linear-gradient(135deg,#fff0cf,#f5eaff);font-size:34px;margin:3px 0 16px}
+.deal h3{margin:0 0 9px;font-size:19px;letter-spacing:-.35px}.deal p{color:#5e6472;line-height:1.6;flex:1;margin:0 0 8px}
+.deal a{margin-top:14px;background:linear-gradient(100deg,#21194b,#4932a7);width:100%;text-align:center}
+.tag{font-size:11px;font-weight:850;letter-spacing:.45px;text-transform:uppercase;color:#6941c6;background:#f0eaff;padding:7px 10px;border-radius:30px;margin-bottom:12px}
+.cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:13px;margin:20px 0 38px}
+.cats a{background:#fff;padding:20px 14px;border:1px solid #ececf4;border-radius:15px;text-decoration:none;color:#28233d;font-weight:850;text-align:center;box-shadow:0 6px 20px #17142c08}
+footer{background:#17142c;color:#ddd;padding:34px 20px;text-align:center;font-size:13px;line-height:1.8;margin-top:45px}footer a{color:#ffb13b}
+.fineprint{font-size:12px;color:#737887;line-height:1.7}.live-empty{grid-column:1/-1}
+@media(max-width:760px){.site-header{position:relative}.header-right small,.nav-links{display:none}.hero,.slides{min-height:560px}.slide{align-items:flex-start;padding:52px 24px 210px}.slide h1{font-size:43px;letter-spacing:-1.8px}.slide p{font-size:16px}.promo-art{width:220px;height:185px;right:8%;top:auto;bottom:12px;transform:none}.art-orbit{width:160px;height:160px}.art-card{width:105px;height:125px;border-radius:20px;font-size:60px}.slide-two .art-card,.slide-three .art-card{font-size:62px}.art-chip{font-size:11px;padding:8px 10px}.chip-a{top:0;right:-3px}.chip-b{bottom:0;left:-5px}.slider-controls{left:24px;bottom:18px}.section-head{display:block}.grid{grid-template-columns:1fr 1fr;gap:12px}.deal{padding:16px;border-radius:16px}.deal h3{font-size:16px}.deal p{font-size:13px}.deal a{font-size:12px;padding:11px 8px}.deal .emoji{width:54px;height:54px;font-size:29px}}
+@media(max-width:430px){.grid{grid-template-columns:1fr}.slide h1{font-size:38px}.cta-row a{width:100%}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
+</style>
 </head>
 <body>
-  <header>
-    <div class="logo">Caza<span>Ofertas</span></div>
-    <small>Oportunidades para comprar mejor</small>
-  </header>
-
-  <section class="hero">
-    <h1>¡Encuentra tu próxima oferta!</h1>
-    <p>Descubre productos destacados, novedades y oportunidades de compra en Amazon Estados Unidos.</p>
-    <a href="#categorias">Explorar categorías</a>
+<header class="site-header">
+  <div class="logo">Caza<span>Ofertas</span></div>
+  <div class="header-right"><small>Ideas inteligentes para comprar mejor</small><nav class="nav-links"><a href="#seleccion">Explorar</a><a href="#ofertas-verificadas">Ofertas verificadas</a><a href="#guias">Guías</a></nav></div>
+</header>
+<section class="hero" aria-label="Promociones destacadas">
+  <div class="slides" id="promo-slides">
+    <article class="slide slide-one active" aria-hidden="false">
+      <div class="slide-copy"><span class="eyebrow">✦ CazaOfertas · Selección destacada</span><h1>Grandes ideas.<br>Compras más inteligentes.</h1><p>Descubre productos populares, compara características y encuentra opciones que encajen contigo. Sin promesas exageradas: información clara para decidir mejor.</p><div class="cta-row"><a class="btn-primary" href="#seleccion">Explorar productos <span aria-hidden="true">→</span></a><a class="btn-ghost" href="#guias">Consejos de compra</a></div></div>
+      <div class="promo-art" aria-hidden="true"><div class="art-orbit"></div><div class="art-card">🎧</div><div class="art-chip chip-a">Ideas que inspiran ✨</div><div class="art-chip chip-b">Tecnología · Hogar · Más</div></div>
+    </article>
+    <article class="slide slide-two" aria-hidden="true">
+      <div class="slide-copy"><span class="eyebrow">✦ Explora sin perder detalle</span><h1>Tu próxima compra<br>empieza aquí.</h1><p>Desde tecnología hasta pequeños aliados para el hogar: explora categorías, revisa detalles y compara antes de elegir.</p><div class="cta-row"><a class="btn-primary" href="#categorias">Ver categorías <span aria-hidden="true">→</span></a><a class="btn-ghost" href="#ofertas-verificadas">Ver ofertas registradas</a></div></div>
+      <div class="promo-art" aria-hidden="true"><div class="art-orbit"></div><div class="art-card">⌚</div><div class="art-chip chip-a">Descubre novedades</div><div class="art-chip chip-b">Compara con criterio</div></div>
+    </article>
+    <article class="slide slide-three" aria-hidden="true">
+      <div class="slide-copy"><span class="eyebrow">✦ Temporada de compras</span><h1>Busca oportunidades.<br>Elige con confianza.</h1><p>Las promociones cambian. Te ayudamos a explorar productos y te llevamos a Amazon para consultar precio, vendedor y disponibilidad actualizados.</p><div class="cta-row"><a class="btn-primary" href="https://www.amazon.com/blackfriday?tag=cazaofert0aea-20" target="_blank" rel="sponsored nofollow noopener">Consultar promociones en Amazon <span aria-hidden="true">↗</span></a></div></div>
+      <div class="promo-art" aria-hidden="true"><div class="art-orbit"></div><div class="art-card">🎁</div><div class="art-chip chip-a">Temporada de ofertas</div><div class="art-chip chip-b">Verifica antes de comprar</div></div>
+    </article>
+  </div>
+  <div class="slider-controls" aria-label="Controles del carrusel"><button class="slider-dot active" type="button" aria-label="Mostrar diapositiva 1" aria-pressed="true"></button><button class="slider-dot" type="button" aria-label="Mostrar diapositiva 2" aria-pressed="false"></button><button class="slider-dot" type="button" aria-label="Mostrar diapositiva 3" aria-pressed="false"></button><button class="slider-pause" id="slider-pause" type="button" aria-pressed="false">Pausar</button></div>
+</section>
+<main>
+  <section class="event">
+    <strong>Promociones y eventos de temporada</strong>
+    <p class="muted">Las campañas, los descuentos y sus fechas pueden cambiar. Consulta la página oficial de Amazon para conocer las promociones vigentes; la presencia de una marca o producto en esta guía no significa que tenga un descuento activo.</p>
+    <a href="https://www.amazon.com/blackfriday?tag=cazaofert0aea-20" target="_blank" rel="sponsored nofollow noopener">Consultar eventos en Amazon</a>
   </section>
 
-  <main>
-    <h2>Explora nuestras categorías</h2>
-    <p class="notice">Estamos preparando una selección de productos para ayudarte a encontrar buenas compras.</p>
+  <p class="disclosure"><strong>Divulgación de afiliación:</strong> As an Amazon Associate I earn from qualifying purchases. CazaOfertas puede recibir comisiones por compras que cumplan los requisitos realizadas a través de los enlaces de esta página, sin coste adicional para el comprador. CazaOfertas es independiente y no está patrocinada ni respaldada por Amazon.</p>
 
-    <div class="categories" id="categorias">
-      <div class="category">📱 Electrónica</div>
-      <div class="category">🏠 Hogar y cocina</div>
-      <div class="category">💻 Informática</div>
-      <div class="category">🎮 Tecnología y gaming</div>
-      <div class="category">💪 Deportes</div>
-      <div class="category">✨ Más vendidos</div>
+  <div class="section-head" id="seleccion"><div><h2>Explora productos que te interesan</h2><p>Ideas y selecciones para empezar tu búsqueda con buen criterio.</p></div></div>
+  <p class="muted">Estas tarjetas son guías de búsqueda, no anuncios de descuentos confirmados. Los enlaces abren resultados de búsqueda en Amazon.com. Revisa el producto exacto, el vendedor, el precio final, los gastos de envío y la disponibilidad antes de comprar.</p>
+  <section class="grid">
+    <article class="deal"><div class="emoji">🍦</div><span class="tag">Hogar · Cocina</span><h3>Ninja CREAMi y electrodomésticos Ninja</h3><p>Explora máquinas para preparar helados, batidoras y otros pequeños electrodomésticos de la marca Ninja. Compara modelos y accesorios compatibles.</p><a href="https://www.amazon.com/s?k=Ninja+CREAMi&tag=cazaofert0aea-20" target="_blank" rel="sponsored nofollow noopener">Buscar productos en Amazon</a></article>
+    <article class="deal"><div class="emoji">☕</div><span class="tag">Hogar · Café</span><h3>Cafeteras Keurig</h3><p>Busca cafeteras de cápsulas, modelos individuales y accesorios Keurig. Comprueba capacidad, compatibilidad de cápsulas y condiciones de cada oferta.</p><a href="https://www.amazon.com/s?k=Keurig+coffee+maker&tag=cazaofert0aea-20" target="_blank" rel="sponsored nofollow noopener">Buscar cafeteras en Amazon</a></article>
+    <article class="deal"><div class="emoji">🧹</div><span class="tag">Hogar · Limpieza</span><h3>iRobot y Bissell</h3><p>Explora robots aspiradores, aspiradoras y equipos para el cuidado de suelos. Compara funciones, consumibles y accesorios incluidos.</p><a href="https://www.amazon.com/s?k=iRobot+Bissell+floorcare&tag=cazaofert0aea-20" target="_blank" rel="sponsored nofollow noopener">Buscar productos en Amazon</a></article>
+    <article class="deal"><div class="emoji">🎧</div><span class="tag">Tecnología · Audio</span><h3>Beats, JBL, Marshall y Sonos</h3><p>Encuentra auriculares, altavoces y equipos de audio. Revisa autonomía, conectividad, compatibilidad y características del modelo.</p><a href="https://www.amazon.com/s?k=Beats+JBL+Marshall+Sonos+headphones+speakers&tag=cazaofert0aea-20" target="_blank" rel="sponsored nofollow noopener">Explorar audio en Amazon</a></article>
+    <article class="deal"><div class="emoji">💻</div><span class="tag">Informática · Gaming</span><h3>Portátiles y PCs gaming</h3><p>Compara equipos ASUS, Acer, Alienware, Lenovo y HP. Comprueba procesador, memoria, tarjeta gráfica, pantalla y configuración exacta.</p><a href="https://www.amazon.com/s?k=ASUS+Acer+Alienware+Lenovo+HP+gaming+laptop&tag=cazaofert0aea-20" target="_blank" rel="sponsored nofollow noopener">Buscar equipos en Amazon</a></article>
+    <article class="deal"><div class="emoji">🧸</div><span class="tag">Juguetes · Regalos</span><h3>LEGO, Hasbro, MAGNA-TILES y Mattel</h3><p>Explora juegos de construcción, juguetes y regalos. Comprueba la edad recomendada, el contenido del paquete y la referencia exacta.</p><a href="https://www.amazon.com/s?k=LEGO+Hasbro+MAGNA-TILES+Mattel&tag=cazaofert0aea-20" target="_blank" rel="sponsored nofollow noopener">Buscar juguetes en Amazon</a></article>
+  </section>
+
+
+
+  <section id="ofertas-verificadas" aria-labelledby="ofertas-title">
+    <div class="section-head"><div><h2 id="ofertas-title">Ofertas verificadas</h2><p>Oportunidades con fuente y vigencia registradas.</p></div></div>
+    <p class="muted">Solo mostramos aquí oportunidades registradas con una fuente de verificación y una fecha de vigencia. No publicamos precios ni porcentajes sin datos autorizados y comprobables.</p>
+    <div id="live-deals" class="grid" aria-live="polite">
+      <article class="deal"><h3>Consultando ofertas…</h3><p>Estamos comprobando las ofertas vigentes.</p></article>
     </div>
+  </section>
+\n  <section id="guias" aria-labelledby="guias-title">
+    <div class="section-head"><div><h2 id="guias-title">Compra con más información</h2><p>Guías sencillas para comparar lo que realmente importa.</p></div></div>
+    <p class="muted">Consejos editoriales independientes para comparar características y evitar compras impulsivas. No son recomendaciones pagadas de fabricantes ni garantizan el mejor precio.</p>
+    <div class="grid">
+      <article class="deal"><span class="tag">Guía 01 · Cocina</span><h3>Cómo elegir una máquina de helados</h3><p>Define primero cuántas raciones prepararás, el espacio disponible y si necesitas recipientes adicionales. Compara el tamaño, la limpieza, los accesorios incluidos y el coste de los consumibles.</p></article>
+      <article class="deal"><span class="tag">Guía 02 · Café</span><h3>Qué revisar antes de comprar una cafetera</h3><p>Comprueba el sistema de preparación, la compatibilidad de cápsulas o café molido, el tamaño del depósito, las dimensiones y la facilidad de limpieza. Calcula también el coste recurrente por taza.</p></article>
+      <article class="deal"><span class="tag">Guía 03 · Limpieza</span><h3>Robot aspirador: características que importan</h3><p>Revisa el tipo de navegación, los obstáculos de tu vivienda, la altura que puede superar, la autonomía, el mantenimiento y la disponibilidad de filtros y cepillos de recambio.</p></article>
+      <article class="deal"><span class="tag">Guía 04 · Audio</span><h3>Cómo comparar auriculares y altavoces</h3><p>Prioriza el uso real: llamadas, viajes, deporte o escucha en casa. Contrasta comodidad, conexión, autonomía declarada por el fabricante, resistencia y política de devolución.</p></article>
+      <article class="deal"><span class="tag">Guía 05 · Informática</span><h3>Elegir un portátil sin pagar de más</h3><p>Empieza por tus programas y tareas. Compara procesador, memoria, almacenamiento, pantalla, peso, puertos y posibilidad de ampliación; verifica siempre la configuración exacta del anuncio.</p></article>
+      <article class="deal"><span class="tag">Guía 06 · Gaming</span><h3>Qué comprobar en un PC gaming</h3><p>Comprueba el modelo concreto de tarjeta gráfica, el procesador, la memoria, la refrigeración, la fuente de alimentación y las opciones de actualización. No te guíes solo por el nombre de la serie.</p></article>
+      <article class="deal"><span class="tag">Guía 07 · Juguetes</span><h3>Comprar juguetes adecuados y seguros</h3><p>Lee la edad recomendada, las advertencias, el tamaño de las piezas y el contenido de la caja. En productos compatibles, confirma que las referencias y generaciones coincidan.</p></article>
+      <article class="deal"><span class="tag">Guía 08 · Hogar</span><h3>Medir antes de comprar electrodomésticos</h3><p>Mide el espacio disponible y deja margen para ventilación, apertura y conexiones. Comprueba dimensiones del embalaje, peso, voltaje y condiciones de entrega.</p></article>
+      <article class="deal"><span class="tag">Guía 09 · Deportes</span><h3>Cómo comparar equipamiento deportivo</h3><p>Adapta el equipo a tu nivel y actividad. Revisa materiales, tallas, límites de uso, mantenimiento y certificaciones aplicables; evita elegir únicamente por el precio más bajo.</p></article>
+      <article class="deal"><span class="tag">Guía 10 · Regalos</span><h3>Una lista útil para elegir regalos</h3><p>Piensa en los intereses y necesidades de la persona, confirma la variante y el contenido del paquete, y comprueba plazos de entrega y política de devolución antes de decidir.</p></article>
+    </div>
+  </section>
 
-    <section class="empty">
-      <h2>Estamos preparando nuestras selecciones</h2>
-      <p>Próximamente encontrarás aquí recomendaciones y productos destacados de Amazon.</p>
-    </section>
-  </main>
+  <section class="event" aria-labelledby="metodo-title">
+    <h2 id="metodo-title">Cómo seleccionamos lo que mostramos</h2>
+    <p class="muted">CazaOfertas organiza búsquedas y publica orientación editorial para ayudar a comparar. No afirmamos que un artículo esté rebajado sin una comprobación verificable. Los precios y la disponibilidad se consultan directamente en Amazon; pueden cambiar y no se garantizan desde esta web.</p>
+    <p class="muted">Cuando una ficha o búsqueda contiene un enlace de afiliado, lo indicamos claramente. La comisión, si se genera, no aumenta el precio para el comprador.</p>
+  </section>
 
-  <footer>
-    <p>CazaOfertas · Selección de productos de Amazon Estados Unidos</p>
-    <p>Los enlaces de afiliado se identificarán claramente cuando estén habilitados.</p>
-    <p>Como participante del Programa de Afiliados de Amazon, puedo obtener ingresos por compras que cumplan los requisitos.</p>
-    <p>Esta web es independiente y no está patrocinada ni respaldada por Amazon.</p>
-  </footer>
-</body>
+  <h2>Explora por categoría</h2>
+  <section class="cats">
+    <a href="https://www.amazon.com/s?k=electronics&tag=cazaofert0aea-20" target="_blank" rel="sponsored nofollow noopener">📱 Electrónica</a>
+    <a href="https://www.amazon.com/s?k=home+kitchen&tag=cazaofert0aea-20" target="_blank" rel="sponsored nofollow noopener">🏠 Hogar y cocina</a>
+    <a href="https://www.amazon.com/s?k=computer+accessories&tag=cazaofert0aea-20" target="_blank" rel="sponsored nofollow noopener">💻 Informática</a>
+    <a href="https://www.amazon.com/s?k=gaming+accessories&tag=cazaofert0aea-20" target="_blank" rel="sponsored nofollow noopener">🎮 Gaming</a>
+    <a href="https://www.amazon.com/s?k=fitness+equipment&tag=cazaofert0aea-20" target="_blank" rel="sponsored nofollow noopener">💪 Deportes</a>
+    <a href="https://www.amazon.com/gp/bestsellers?tag=cazaofert0aea-20" target="_blank" rel="sponsored nofollow noopener">⭐ Más vendidos</a>
+  </section>
+
+  <p class="fineprint">Los precios, descuentos, gastos de envío, vendedores y existencias son determinados por Amazon y pueden cambiar sin previo aviso. CazaOfertas no garantiza que un producto esté rebajado ni disponible. Antes de completar una compra, confirma toda la información en Amazon.com.</p>
+</main>
+<footer><strong>CazaOfertas</strong><br>Guías de compra y selecciones de productos.<br>Amazon y sus marcas son marcas de Amazon.com, Inc. o sus afiliadas.</footer>
+
+<script>
+(function(){
+ const slides=[...document.querySelectorAll(".slide")],dots=[...document.querySelectorAll(".slider-dot")],pause=document.getElementById("slider-pause");
+ if(!slides.length||!dots.length||!pause)return;
+ const reduced=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+ let current=0,paused=reduced,timer=null;
+ function show(i){current=(i+slides.length)%slides.length;slides.forEach((s,n)=>{s.classList.toggle("active",n===current);s.setAttribute("aria-hidden",n===current?"false":"true")});dots.forEach((d,n)=>{d.classList.toggle("active",n===current);d.setAttribute("aria-pressed",n===current?"true":"false")})}
+ function stop(){if(timer){clearInterval(timer);timer=null}}
+ function start(){stop();if(!paused)timer=setInterval(()=>show(current+1),6000)}
+ dots.forEach((d,i)=>d.addEventListener("click",()=>{show(i);start()}));
+ pause.addEventListener("click",()=>{paused=!paused;pause.textContent=paused?"Reanudar":"Pausar";pause.setAttribute("aria-pressed",String(paused));start()});
+ const hero=document.querySelector(".hero");hero.addEventListener("mouseenter",stop);hero.addEventListener("mouseleave",start);hero.addEventListener("focusin",stop);hero.addEventListener("focusout",start);
+ show(0);if(paused){pause.textContent="Reanudar";pause.setAttribute("aria-pressed","true")}else start();
+})();
+</script>
+<script>
+(async function loadVerifiedDeals() {
+  const target = document.getElementById("live-deals");
+  if (!target) return;
+  const make = (tag, text, className) => {
+    const node = document.createElement(tag);
+    if (text !== undefined) node.textContent = text;
+    if (className) node.className = className;
+    return node;
+  };
+  try {
+    const response = await fetch("/api/deals", { headers: { "accept": "application/json" }, cache: "no-store" });
+    if (!response.ok) throw new Error("No se pudo consultar el listado.");
+    const payload = await response.json();
+    const deals = Array.isArray(payload.deals) ? payload.deals : [];
+    target.replaceChildren();
+    if (!deals.length) {
+      const card = make("article", undefined, "deal");
+      card.append(make("h3", "Todavía no hay ofertas verificadas publicadas."));
+      card.append(make("p", "Estamos preparando la conexión con fuentes autorizadas. Mientras tanto, puedes consultar las promociones directamente en Amazon."));
+      const link = make("a", "Consultar promociones en Amazon");
+      link.href = "https://www.amazon.com/blackfriday?tag=cazaofert0aea-20";
+      link.target = "_blank";
+      link.rel = "sponsored nofollow noopener";
+      card.append(link);
+      target.append(card);
+      return;
+    }
+    for (const deal of deals) {
+      const card = make("article", undefined, "deal");
+      card.append(make("span", deal.category || "Oferta", "tag"));
+      card.append(make("h3", deal.title || "Producto"));
+      card.append(make("p", "Verificación: " + (deal.verificationSource || "Fuente registrada") + "."));
+      card.append(make("p", "Comprobado: " + (deal.verifiedAt ? new Date(deal.verifiedAt).toLocaleString("es-ES") : "fecha no disponible") + "."));
+      const link = make("a", "Ver en Amazon");
+      link.href = deal.url;
+      link.target = "_blank";
+      link.rel = "sponsored nofollow noopener";
+      card.append(link);
+      target.append(card);
+    }
+  } catch (error) {
+    target.replaceChildren(make("p", "No ha sido posible cargar las ofertas ahora. Vuelve a intentarlo más tarde.", "muted"));
+  }
+})();
+</script>
+\n</body>
 </html>
