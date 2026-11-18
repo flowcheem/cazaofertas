@@ -64,7 +64,8 @@ export default {
       const history = await env.DEALS.list({ prefix: RUN_PREFIX, limit: MAX_RUNS });
       const lastKey = history.keys.at(-1);
       const lastRun = lastKey ? await env.DEALS.get(lastKey.name, "json") : null;
-      return json({ ok: true, service: "cazaofertas", schedule: "0 */3 * * * (UTC)", lastRun });
+      const activeDeals = await listDeals(env);
+      return json({ ok: true, service: "cazaofertas", schedule: "0 */3 * * * (UTC)", activeDeals: activeDeals.length, lastRun });
     }
 
     if (url.pathname === "/api/deals" && request.method === "GET") {
@@ -83,12 +84,16 @@ export default {
       }
       const saved = [];
       for (const deal of body.deals) {
-        if (!deal || typeof deal.title !== "string" || deal.title.length > 140 ||
+        const expiresAt = Date.parse(deal?.expiresAt);
+        const verifiedAt = Date.parse(deal?.verifiedAt);
+        if (!deal || Object.keys(deal).some((key) => ["price", "salePrice", "listPrice", "discount", "discountPercent"].includes(key)) ||
+            typeof deal.title !== "string" || deal.title.trim().length < 5 || deal.title.length > 140 ||
             typeof deal.category !== "string" || deal.category.length > 60 ||
             !validAmazonUrl(deal.url) ||
-            !Number.isFinite(Date.parse(deal.expiresAt)) ||
-            !Number.isFinite(Date.parse(deal.verifiedAt)) ||
-            typeof deal.verificationSource !== "string" || deal.verificationSource.length < 5) {
+            !Number.isFinite(expiresAt) || expiresAt <= Date.now() ||
+            !Number.isFinite(verifiedAt) || verifiedAt > Date.now() + 5 * 60 * 1000 ||
+            expiresAt > Date.now() + 31 * 24 * 60 * 60 * 1000 ||
+            typeof deal.verificationSource !== "string" || deal.verificationSource.trim().length < 5 || deal.verificationSource.length > 300) {
           return json({ error: "Each deal needs title, category, Amazon URL tagged with the Store ID, expiresAt, verifiedAt and verificationSource. Price fields are not accepted." }, 400);
         }
         const id = crypto.randomUUID();
@@ -105,7 +110,7 @@ export default {
         await env.DEALS.put(DEAL_PREFIX + id, JSON.stringify(record));
         saved.push(id);
       }
-      return json({ ok: true, saved: saved.length, ids: saved }, 201);
+      return json({ ok: true, saved: saved.length, ids: saved, message: "Ofertas guardadas. Se mostrarán públicamente mientras sigan vigentes." }, 201);
     }
 
     if (url.pathname === "/api/admin/runs" && request.method === "GET") {
@@ -132,8 +137,8 @@ export default {
         status: "ok",
         expiredDeals: expired,
         activeDeals: (await listDeals(env)).length,
-        sourceRefresh: "not_configured",
-        note: "Amazon Creators API credentials/access are not configured; no prices or stock claims were fetched.",
+        sourceRefresh: "awaiting_authorized_source",
+        note: "No automatic source is connected. Only offers submitted through the authenticated admin endpoint are published; no prices or stock claims are fabricated.",
       };
       await logRun(env, record);
       console.log("CazaOfertas cron completed", record);
