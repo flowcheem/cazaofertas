@@ -137,6 +137,21 @@ footer{background:#17142c;color:#ddd;padding:34px 20px;text-align:center;font-si
 <footer><strong>CazaOfertas</strong><br>Guías de compra y selecciones de productos.<br>Amazon y sus marcas son marcas de Amazon.com, Inc. o sus afiliadas.</footer>
 
 <script>
+(function(){
+ const slides=[...document.querySelectorAll(".slide")],dots=[...document.querySelectorAll(".slider-dot")],pause=document.getElementById("slider-pause");
+ if(!slides.length||!dots.length||!pause)return;
+ const reduced=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+ let current=0,paused=reduced,timer=null;
+ function show(i){current=(i+slides.length)%slides.length;slides.forEach((s,n)=>{s.classList.toggle("active",n===current);s.setAttribute("aria-hidden",n===current?"false":"true")});dots.forEach((d,n)=>{d.classList.toggle("active",n===current);d.setAttribute("aria-pressed",n===current?"true":"false")})}
+ function stop(){if(timer){clearInterval(timer);timer=null}}
+ function start(){stop();if(!paused)timer=setInterval(()=>show(current+1),6000)}
+ dots.forEach((d,i)=>d.addEventListener("click",()=>{show(i);start()}));
+ pause.addEventListener("click",()=>{paused=!paused;pause.textContent=paused?"Reanudar":"Pausar";pause.setAttribute("aria-pressed",String(paused));start()});
+ const hero=document.querySelector(".hero");hero.addEventListener("mouseenter",stop);hero.addEventListener("mouseleave",start);hero.addEventListener("focusin",stop);hero.addEventListener("focusout",start);
+ show(0);if(paused){pause.textContent="Reanudar";pause.setAttribute("aria-pressed","true")}else start();
+})();
+</script>
+<script>
 (async function loadVerifiedDeals() {
   const target = document.getElementById("live-deals");
   if (!target) return;
